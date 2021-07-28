@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo '
+Scraping snapshot....
+.....................
+.....................
+'
+node ./src/scrape.js
+
+echo '
+Running ipfs-sync....
+.....................
+.....................
+'
+
+yarn sync-proposals
+yarn sync-proposals-relayers
+yarn sync-votes
+yarn sync-votes-relayers

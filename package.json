@@ -1,0 +1,15 @@
+{
+    "dependencies": {
+        "axios": "^0.21.1",
+        "@graphprotocol/ipfs-sync": "^0.1.4"
+    },
+    "devDependencies": {
+        "prettier": "^1.18.2"
+    },
+    "scripts": {
+        "sync-proposals": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals.txt --skip-existing",
+        "sync-proposals-relayers": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals-relayers.txt --skip-existing",
+        "sync-votes": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes.txt --skip-existing",
+        "sync-votes-relayers": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes-relayers.txt --skip-existing"
+    }
+}
