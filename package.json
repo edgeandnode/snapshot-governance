@@ -1,12 +1,21 @@
 {
     "dependencies": {
-        "axios": "^0.21.1",
-        "@graphprotocol/ipfs-sync": "^0.1.4"
+        "@graphprotocol/ipfs-sync": "^0.1.4",
+        "axios": "^0.21.1"
     },
     "devDependencies": {
-        "prettier": "^1.18.2"
+        "@types/node": "^16.4.7",
+        "@typescript-eslint/eslint-plugin": "^4.28.5",
+        "@typescript-eslint/parser": "^4.28.5",
+        "eslint": "^7.31.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "prettier": "^1.18.2",
+        "typescript": "^4.3.5"
     },
     "scripts": {
+        "lint": "eslint 'src/**/*.{js,ts}'",
+        "prettier": "prettier --write 'src/**/*.ts'",
         "sync-proposals": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals.txt --skip-existing",
         "sync-proposals-relayers": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals-relayers.txt --skip-existing",
         "sync-votes": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes.txt --skip-existing",
