@@ -1,6 +1,6 @@
 import fs from 'fs'
 import 'isomorphic-unfetch'
-import { Client as GraphQLClient, gql } from "@urql/core"
+import { Client as GraphQLClient, gql } from '@urql/core'
 import * as dotenv from 'dotenv'
 import { exit } from 'process'
 
@@ -13,12 +13,10 @@ const PAGE_SIZE = 100
 const PROPOSALS_QUERY = gql`
   query Proposals($spaces: [String]!, $first: Int!, $skip: Int!) {
     proposals(
-      first: $first,
-      skip: $skip,
-      where: {
-        space_in: $spaces
-      },
-      orderBy: "created",
+      first: $first
+      skip: $skip
+      where: { space_in: $spaces }
+      orderBy: "created"
       orderDirection: desc
     ) {
       id
@@ -33,13 +31,7 @@ const PROPOSALS_QUERY = gql`
 
 const VOTES_QUERY = gql`
   query Votes($proposal: String!, $first: Int!, $skip: Int!) {
-    votes (
-      first: $first,
-      skip: $skip,
-      where: {
-        proposal: $proposal
-      }
-    ) {
+    votes(first: $first, skip: $skip, where: { proposal: $proposal }) {
       id
       voter
       proposal {
@@ -54,7 +46,7 @@ const VOTES_QUERY = gql`
 // Types
 
 type Proposal = {
-  id: string,
+  id: string
 }
 
 type ProposalsResponse = {
@@ -62,19 +54,19 @@ type ProposalsResponse = {
 }
 
 type Vote = {
-  id: string,
+  id: string
 }
 
 type VotesResponse = {
   votes: Vote[]
 }
 
-async function getProposals(client: GraphQLClient, spaces: Array<String>) {
+async function getProposals(client: GraphQLClient, spaces: Array<string>) {
   try {
-    let fetchNextPage: Boolean = true
+    let fetchNextPage = true
     let skip = 0
 
-    while(fetchNextPage) {
+    while (fetchNextPage) {
       fetchNextPage = await getProposalsPage(client, spaces, skip)
       skip += PAGE_SIZE
     }
@@ -83,9 +75,15 @@ async function getProposals(client: GraphQLClient, spaces: Array<String>) {
   }
 }
 
+async function getProposalsPage(
+  client: GraphQLClient,
+  spaces: Array<string>,
+  skip: number,
+): Promise<boolean> {
+  const response = await client
+    .query(PROPOSALS_QUERY, { spaces, first: PAGE_SIZE, skip })
+    .toPromise()
 
-async function getProposalsPage(client: GraphQLClient, spaces: Array<String>, skip: Number): Promise<Boolean> {
-  const response = await client.query(PROPOSALS_QUERY, { spaces, first: PAGE_SIZE, skip }).toPromise()
   const data: ProposalsResponse = response.data
 
   if (!data.proposals.length) {
@@ -93,7 +91,10 @@ async function getProposalsPage(client: GraphQLClient, spaces: Array<String>, sk
   }
 
   for (const proposal of data.proposals) {
-    const proposals = fs.readFileSync('./data/proposals.txt', {encoding: 'utf8', flag: 'a+'})
+    const proposals = fs.readFileSync('./data/proposals.txt', {
+      encoding: 'utf8',
+      flag: 'a+',
+    })
     const duplicateProposal = proposals.includes(proposal.id)
     if (duplicateProposal) {
       console.log(`Duplicate proposal    : ${proposal.id}`)
@@ -107,10 +108,10 @@ async function getProposalsPage(client: GraphQLClient, spaces: Array<String>, sk
 
 async function getVotes(client: GraphQLClient) {
   try {
-    let fetchNextPage: Boolean = true
+    let fetchNextPage = true
     let skip = 0
 
-    while(fetchNextPage) {
+    while (fetchNextPage) {
       fetchNextPage = await getVotesPage(client, skip)
       skip += PAGE_SIZE
     }
@@ -119,16 +120,20 @@ async function getVotes(client: GraphQLClient) {
   }
 }
 
-async function getVotesPage(client: GraphQLClient, skip: Number): Promise<Boolean> {
+async function getVotesPage(client: GraphQLClient, skip: number): Promise<boolean> {
   try {
-    const proposals = fs.readFileSync('./data/proposals.txt', {encoding: 'utf8', flag: 'a+'}).split('\n')
+    const proposals = fs
+      .readFileSync('./data/proposals.txt', { encoding: 'utf8', flag: 'a+' })
+      .split('\n')
     proposals.pop() // remove final new line
     console.log(proposals)
 
     // Here  we query for the proposal votes
     // Note - if no votes have been created, it will just return an empty object
     for (const proposal of proposals) {
-      const response = await client.query(VOTES_QUERY, { proposal, first: PAGE_SIZE, skip }).toPromise()
+      const response = await client
+        .query(VOTES_QUERY, { proposal, first: PAGE_SIZE, skip })
+        .toPromise()
       const data: VotesResponse = response.data
 
       if (!data.votes.length) {
@@ -138,7 +143,10 @@ async function getVotesPage(client: GraphQLClient, skip: Number): Promise<Boolea
       // Once we grab the proposal, from this end point, we need to parse out all of the
       // IPFS hashes, and add them to a txt file for ipfs-sync
       for (const vote of data.votes) {
-        const votes = fs.readFileSync('./data/votes.txt', {encoding: 'utf8', flag: 'a+'})
+        const votes = fs.readFileSync('./data/votes.txt', {
+          encoding: 'utf8',
+          flag: 'a+',
+        })
         const duplicateVote = votes.includes(vote.id)
         if (duplicateVote) {
           console.log(`Duplicate vote        : ${vote.id}`)
