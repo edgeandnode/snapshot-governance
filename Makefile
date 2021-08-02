@@ -1,4 +1,4 @@
-.PHONY: scrape-snapshot scrape clean ipfs-sync
+.PHONY: scrape-snapshot scrape clean ipfs-sync data
 
 data: data/proposals.txt data/votes.txt
 
