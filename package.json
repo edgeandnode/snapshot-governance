@@ -23,8 +23,6 @@
         "prettier": "prettier --write 'src/**/*.ts'",
         "scrape-snapshot": "ts-node src/scrape.ts",
         "sync-proposals": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals.txt --skip-existing",
-        "sync-proposals-relayers": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals-relayers.txt --skip-existing",
-        "sync-votes": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes.txt --skip-existing",
-        "sync-votes-relayers": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes-relayers.txt --skip-existing"
+        "sync-votes": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes.txt --skip-existing"
     }
 }

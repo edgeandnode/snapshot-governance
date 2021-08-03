@@ -15,9 +15,7 @@ scrape-snapshot: data
 ipfs-sync: data
 	@echo "Running ipfs-sync..."
 	yarn sync-proposals
-	yarn sync-proposals-relayers
 	yarn sync-votes
-	yarn sync-votes-relayers
 
 scrape: scrape-snapshot ipfs-sync
 
