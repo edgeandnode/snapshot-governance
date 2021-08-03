@@ -62,3 +62,6 @@ typings/
 
 # typescript build directory
 dist/
+
+# text files
+data/*.txt
