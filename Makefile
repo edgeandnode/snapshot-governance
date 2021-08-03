@@ -19,9 +19,7 @@ ipfs-sync: data
 	yarn sync-votes
 	yarn sync-votes-relayers
 
-scrape:
-	scrape-snapshot
-	ipfs-sync
+scrape: scrape-snapshot ipfs-sync
 
 clean:
 	@echo "Deleting data files..."
