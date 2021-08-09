@@ -1,9 +1,14 @@
 .PHONY: scrape-snapshot scrape clean ipfs-sync data
 
-include .env
-export
+ifneq ("$(wildcard .env)","")
+	include .env
+	export
+endif
 
-data: data/proposals.txt data/votes.txt
+data: ensure-data data/proposals.txt data/votes.txt
+
+ensure-data:
+	mkdir -p data
 
 data/proposals.txt:
 	touch data/proposals.txt
