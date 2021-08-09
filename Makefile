@@ -1,5 +1,8 @@
 .PHONY: scrape-snapshot scrape clean ipfs-sync data
 
+include .env
+export
+
 data: data/proposals.txt data/votes.txt
 
 data/proposals.txt:
@@ -12,10 +15,16 @@ scrape-snapshot: data
 	@echo "Scraping snapshot..."
 	yarn scrape-snapshot
 
-ipfs-sync: data
+ipfs-sync: data ipfs-sync-msg sync-proposals sync-votes
+
+ipfs-sync-msg:
 	@echo "Running ipfs-sync..."
-	yarn sync-proposals
-	yarn sync-votes
+
+sync-proposals:
+	ipfs-sync sync-files --from $(SNAPSHOT_IPFS_GATEWAY) --to $(TARGET_IPFS_GATEWAYS) --file-list ./data/proposals.txt --skip-existing
+
+sync-votes:
+	ipfs-sync sync-files --from $(SNAPSHOT_IPFS_GATEWAY) --to $(TARGET_IPFS_GATEWAYS) --file-list ./data/votes.txt --skip-existing
 
 scrape: scrape-snapshot ipfs-sync
 
