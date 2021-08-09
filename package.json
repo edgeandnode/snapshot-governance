@@ -22,7 +22,7 @@
         "lint": "eslint 'src/**/*.{js,ts}'",
         "prettier": "prettier --write 'src/**/*.ts'",
         "build": "tsc",
-        "scrape-snapshot": "ts-node src/scrape.ts",
+        "scrape-snapshot": "node dist/scrape.js",
         "sync-proposals": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals.txt --skip-existing",
         "sync-votes": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes.txt --skip-existing"
     }
