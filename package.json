@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "@graphprotocol/ipfs-sync": "^0.1.4",
+        "@graphprotocol/ipfs-sync": "^0.2.0",
         "@urql/core": "^2.1.5",
         "axios": "^0.21.1",
         "dotenv": "^10.0.0",
@@ -21,6 +21,7 @@
     "scripts": {
         "lint": "eslint 'src/**/*.{js,ts}'",
         "prettier": "prettier --write 'src/**/*.ts'",
+        "build": "tsc",
         "scrape-snapshot": "ts-node src/scrape.ts",
         "sync-proposals": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/proposals.txt --skip-existing",
         "sync-votes": "ipfs-sync sync-files --from https://ipfs.io --to https://api.staging.thegraph.com/ipfs/ --file-list ./data/votes.txt --skip-existing"
