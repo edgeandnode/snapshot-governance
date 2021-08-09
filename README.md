@@ -21,11 +21,3 @@ make scrape
 - It then runs `ipfs-sync` on these four files
 - All the scripts are de-dupped so that this could run on a VM in the cloud, ping it once a day,
   and it will only append to the txt files. Then ipfs-sync already skips over dupes.
-
-# TODO 
-
-- Bug - Get `ipfs-sync` to not boot out after batching the first 10 files to be synced over. Some reason
-  it randomly boots out of the process
-- Pin to multiple IPFS gateways
-- Figure out how to set it up so that it is a process that runs in the cloud daily. Maybe part of
-  our monitoring system.
